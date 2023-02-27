@@ -6,7 +6,6 @@ import { UTILS } from "./utils";
 
 export function FileUpload({ content, setContent, setShowTable }) {
   const validContent = content !== null;
-  const buttonText = validContent ? "Mostrar tabela" : "Carregar arquivo JSON";
   const uploadProps = {
     showUploadList: false,
     beforeUpload: (file) => {
@@ -16,10 +15,10 @@ export function FileUpload({ content, setContent, setShowTable }) {
         return false;
       }
 
-      let fileReader = new FileReader();
+      const fileReader = new FileReader();
       fileReader.onload = () => {
         try {
-          let content = JSON.parse(fileReader.result);
+          const content = JSON.parse(fileReader.result);
           setContent(content);
           setShowTable(true);
           message.success(`A tabela está disponível!`);
@@ -33,7 +32,7 @@ export function FileUpload({ content, setContent, setShowTable }) {
     },
     maxCount: UTILS.MAX_FILE,
   };
-
+  const buttonText = validContent ? "Mostrar tabela" : "Carregar arquivo JSON";
   const buttonProps = {
     type: "primary",
     style: ButtonStyle,
@@ -41,12 +40,11 @@ export function FileUpload({ content, setContent, setShowTable }) {
     icon: validContent ? <EyeOutlined /> : <UploadOutlined />,
     onClick: validContent ? () => setShowTable(true) : null,
   };
+  const button = <Button {...buttonProps}>{buttonText}</Button>;
 
   return (
     <Wrapper>
-      <Upload {...uploadProps}>
-        <Button {...buttonProps}>{buttonText}</Button>
-      </Upload>
+      {validContent ? button : <Upload {...uploadProps}>{button}</Upload>}
     </Wrapper>
   );
 }
