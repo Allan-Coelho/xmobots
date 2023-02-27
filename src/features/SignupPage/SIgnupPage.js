@@ -1,22 +1,27 @@
 import { Button, Form, Input, message } from "antd";
 import { Wrapper, Title } from "./styles";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { save } from "./loginSlice";
-import { RULES } from "./validationRules";
+import { save } from "../LoginPage/loginSlice";
+import { RULES } from "../LoginPage/validationRules";
 
-export function LoginPage() {
+export function SignupPage() {
   const navigate = useNavigate();
   const username = useSelector((state) => state.login.username);
   const dispatch = useDispatch();
   const {
     USER_CANT_BE_EMPTY,
     USER_MIN_LENGTH,
+    EMAIL_CANT_BE_EMPTY,
+    MUST_BE_EMAIL,
     PASSWORD_CANT_BE_EMPTY,
     PASSWORD_MIN_LENGTH,
+    PASSWORDS_MUST_MATCH,
   } = RULES;
   const userRules = [USER_CANT_BE_EMPTY, USER_MIN_LENGTH];
+  const emailRules = [EMAIL_CANT_BE_EMPTY, MUST_BE_EMAIL];
   const passwordRules = [PASSWORD_CANT_BE_EMPTY, PASSWORD_MIN_LENGTH];
+  const confirmPasswordRules = [...passwordRules, PASSWORDS_MUST_MATCH];
   const onFinish = (values) => {
     dispatch(save(values));
     navigate("/map");
@@ -42,23 +47,39 @@ export function LoginPage() {
     name: "username",
     rules: userRules,
   };
+  const emailProps = {
+    label: <label style={{ color: "white" }}>E-mail</label>,
+    name: "email",
+    rules: emailRules,
+  };
   const passwordProps = {
     label: <label style={{ color: "white" }}>Senha</label>,
     name: "password",
     rules: passwordRules,
+  };
+  const confirmPasswordProps = {
+    label: <label style={{ color: "white" }}>Confirme sua senha</label>,
+    name: "passwordConfirmation",
+    dependencies: ["password"],
+    rules: confirmPasswordRules,
   };
 
   if (username !== "") navigate("/map");
 
   return (
     <Wrapper>
-      <Title>Login</Title>
+      <Title>Signup</Title>
       <Form {...formProps}>
         <Form.Item {...usernameProps}>
           <Input />
         </Form.Item>
-
+        <Form.Item {...emailProps}>
+          <Input />
+        </Form.Item>
         <Form.Item {...passwordProps}>
+          <Input.Password />
+        </Form.Item>
+        <Form.Item {...confirmPasswordProps}>
           <Input.Password />
         </Form.Item>
 
@@ -74,13 +95,10 @@ export function LoginPage() {
             htmlType="submit"
             style={{ backgroundColor: "#32BF84" }}
           >
-            Login
+            Signup
           </Button>
         </Form.Item>
       </Form>
-      <Link style={{ color: "white" }} to={"/signup"}>
-        Ainda não tem uma conta? Cadastre-se!
-      </Link>
     </Wrapper>
   );
 }
