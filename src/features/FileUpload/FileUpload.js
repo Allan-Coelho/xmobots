@@ -1,7 +1,6 @@
 import { UploadOutlined, EyeOutlined } from "@ant-design/icons";
 import { Button, message, Upload } from "antd";
 import { Wrapper } from "./styles";
-import { useState } from "react";
 import { ButtonStyle } from "./styles";
 import { UTILS } from "./utils";
 

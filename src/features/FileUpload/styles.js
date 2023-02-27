@@ -20,3 +20,10 @@ export const Title = styled.h1`
   font-size: 62px;
   margin-bottom: 40px;
 `;
+
+export const ButtonStyle = {
+  marginTop: "30px",
+  backgroundColor: "#333",
+  borderColor: "#333",
+  color: "white",
+};

@@ -35,3 +35,9 @@ export function findDMSCoordinates(text) {
 
   return null;
 }
+
+export const UTILS = Object.freeze({
+  MAX_FILES: 1,
+  DONT_UPLOAD_TO_SERVER: false,
+  JSON_MIME_TYPE: "application/json",
+});
