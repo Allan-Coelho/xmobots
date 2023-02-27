@@ -2,14 +2,16 @@ import { UploadOutlined, EyeOutlined } from "@ant-design/icons";
 import { Button, message, Upload } from "antd";
 import { Wrapper } from "./styles";
 import { useState } from "react";
+import { ButtonStyle } from "./styles";
+import { UTILS } from "./utils";
 
 export function FileUpload({ content, setContent, setShowTable }) {
-  const [isUpload, setIsUpload] = useState(false);
-  const props = {
+  const validContent = content !== null;
+  const buttonText = validContent ? "Mostrar tabela" : "Carregar arquivo JSON";
+  const uploadProps = {
     showUploadList: false,
-    disabled: isUpload,
     beforeUpload: (file) => {
-      const isJSON = file.type === "application/json";
+      const isJSON = file.type === UTILS.JSON_MIME_TYPE;
       if (isJSON === false) {
         message.error(`${file.name} não é um arquivo JSON`);
         return false;
@@ -20,57 +22,31 @@ export function FileUpload({ content, setContent, setShowTable }) {
         try {
           let content = JSON.parse(fileReader.result);
           setContent(content);
-          setIsUpload(true);
+          setShowTable(true);
           message.success(`A tabela está disponível!`);
-          console.log(content);
         } catch (error) {
+          message.error(`Houve uma falha ao processar o arquivo: ${file.name}`);
           console.error(error);
         }
       };
       fileReader.readAsText(file);
-      return false;
+      return UTILS.DONT_UPLOAD_TO_SERVER;
     },
-    onChange: (info) => {
-      console.log(info);
-    },
-    maxCount: 1,
+    maxCount: UTILS.MAX_FILE,
   };
 
-  if (content !== null)
-    return (
-      <Wrapper>
-        <Button
-          type="primary"
-          style={{
-            marginTop: "30px",
-            backgroundColor: "#333",
-            borderColor: "#333",
-            color: "white",
-          }}
-          size="large"
-          icon={<EyeOutlined />}
-          onClick={() => setShowTable(true)}
-        >
-          Mostrar tabela
-        </Button>
-      </Wrapper>
-    );
+  const buttonProps = {
+    type: "primary",
+    style: ButtonStyle,
+    size: "large",
+    icon: validContent ? <EyeOutlined /> : <UploadOutlined />,
+    onClick: validContent ? () => setShowTable(true) : null,
+  };
 
   return (
     <Wrapper>
-      <Upload {...props}>
-        <Button
-          style={{
-            marginTop: "30px",
-            backgroundColor: "#333",
-            borderColor: "#333",
-            color: "white",
-          }}
-          size="large"
-          icon={<UploadOutlined />}
-        >
-          Upload JSON
-        </Button>
+      <Upload {...uploadProps}>
+        <Button {...buttonProps}>{buttonText}</Button>
       </Upload>
     </Wrapper>
   );
