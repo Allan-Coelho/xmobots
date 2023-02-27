@@ -26,6 +26,7 @@ export function LoginPage() {
         initialValues={{
           remember: true,
         }}
+        style={{ width: "600px" }}
         size="large"
         layout="vertical"
         onFinish={onFinish}

@@ -13,7 +13,7 @@ export const Wrapper = styled.div`
 
 export const User = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   height: 65px;
 `;
@@ -26,7 +26,7 @@ export const Username = styled.span`
 
 export const Sidebar = styled.span`
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   width: 600px;
   height: 100vh;
   padding: 20px;
