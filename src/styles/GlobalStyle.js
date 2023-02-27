@@ -51,13 +51,17 @@ table {
 	border-spacing: 0;
 }
 
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+}
+
 * {
     box-sizing: border-box;
 }
 
 body {
 font-family: "Raleway", sans-serif;
-  text-align: center;
   background: rgb(51, 51, 51);
   min-height: 100vh;
 }

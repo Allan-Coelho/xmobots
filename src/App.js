@@ -1,3 +1,5 @@
+import { LoginPage } from "./features/LoginPage/LoginPage.js";
+import { MapPage } from "./features/MapPage/MapPage.js";
 import GlobalStyle from "./styles/GlobalStyle.js";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -14,7 +16,8 @@ function Root() {
     <>
       <GlobalStyle />
       <Routes>
-        <Route path="/" element={<></>} />
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/map" element={<MapPage />} />
       </Routes>
     </>
   );
